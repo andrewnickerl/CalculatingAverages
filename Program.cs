@@ -25,12 +25,17 @@ namespace CalculatingAverages
         //this method takes the sum of 10 input numbers
         void sumOfNumbers()
         {
-            int temp;
-            int sum = 0;
+            double temp, sum = 0;
+            bool isValid;
             for(int i = 0; i < 10; i++)
             {
                 Console.Write("Please enter a number: ");
-                temp = int.Parse(Console.ReadLine());
+                isValid = double.TryParse(Console.ReadLine(), out temp);
+                while(isValid==false)
+                {
+                    Console.Write("Error! Please enter a number: ");
+                    isValid = double.TryParse(Console.ReadLine(), out temp);
+                }
                 sum += temp;
             }
             Console.WriteLine($"The sum is {sum}.");
@@ -39,12 +44,17 @@ namespace CalculatingAverages
         //this function averages 10 input test scores and assigns a letter grade to the average
         void avgTenScores()
         {
-            int temp;
-            int sum = 0;
+            double temp, sum = 0;
+            bool isValid;
             for (int i = 0; i < 10; i++)
             {
                 Console.Write("Please enter a test score between 0 and 100: ");
-                temp = int.Parse(Console.ReadLine());
+                isValid = double.TryParse(Console.ReadLine(), out temp);
+                while(isValid==false)
+                {
+                    Console.Write("Error! Please enter a number: ");
+                    isValid = double.TryParse(Console.ReadLine(), out temp);
+                }
                 if(temp > 100 || temp < 0) //disallow values outside the specified range and allow another iteration of loop for 10 total accepted values
                 {
                     Console.WriteLine("Please enter a value between 0 and 100.");
@@ -56,7 +66,7 @@ namespace CalculatingAverages
                 }
             }
 
-            int avg = sum / 10; //calculate average from sum
+            double avg = sum / 10; //calculate average from sum
             char grade;
 
             if (avg <= 100 && avg >= 93)
@@ -89,17 +99,22 @@ namespace CalculatingAverages
         //this function averages a user-predetermined amount of input test scores and assigns a letter grade to the average
         void avgSpecScores()
         {
-            int temp;
-            int sum = 0;
-            int numScores;
+            double temp, sum = 0, numScores;
+            bool isValid;
 
             Console.Write("Please input the total number of scores you will enter: ");
-            numScores = int.Parse(Console.ReadLine());
+            numScores = double.Parse(Console.ReadLine());
 
             for (int i = 0; i < numScores; i++)
             {
                 Console.Write("Please enter a test score between 0 and 100: ");
-                temp = int.Parse(Console.ReadLine());
+                isValid = double.TryParse(Console.ReadLine(), out temp);
+                while(isValid==false)
+                {
+                    Console.Write("Error! Please enter a number: ");
+                    isValid = double.TryParse(Console.ReadLine(), out temp);
+                }
+
                 if (temp > 100 || temp < 0) //disallow values outside the specified range and allow another iteration of loop for 10 total accepted values
                 {
                     Console.WriteLine("Please enter a value between 0 and 100.");
@@ -111,7 +126,7 @@ namespace CalculatingAverages
                 }
             }
 
-            int avg = sum / numScores; //calculate average from sum
+            double avg = sum / numScores; //calculate average from sum
             char grade;
 
             if (avg <= 100 && avg >= 93)
@@ -144,14 +159,45 @@ namespace CalculatingAverages
         //this function averages a nonspecific amount of input test scores and assigns a letter grade to the average
         void avgNonSpecScores()
         {
-            int temp;
-            int sum = 0;
-            int numScores = 0;
-            bool cont = true;
+            double temp, sum = 0, numScores = 0;
+            bool isValid, cont = true;
+
+            bool contSwitch(string answer)
+            {
+                switch(answer)
+                {
+                    case "yes":
+                        return true;
+                    case "Yes":
+                        return true;
+                    case "y":
+                        return true;
+                    case "Y":
+                        return true;
+                    case "no":
+                        return false;
+                    case "No":
+                        return false;
+                    case "n":
+                        return false;
+                    case "N":
+                        return false;
+                    default:
+                        Console.Write("Please enter yes or no: ");
+                        return contSwitch(Console.ReadLine());
+                }
+            }
+
             while (cont == true)
             {
                 Console.Write("Please enter a test score between 0 and 100: ");
-                temp = int.Parse(Console.ReadLine());
+                isValid = double.TryParse(Console.ReadLine(), out temp);
+                while(isValid==false)
+                {
+                    Console.Write("Error! Please enter a number: ");
+                    isValid = double.TryParse(Console.ReadLine(), out temp);
+                }
+
                 if (temp > 100 || temp < 0) //disallow values outside the specified range and allow another iteration of loop for 10 total accepted values
                 {
                     Console.WriteLine("Please enter a value between 0 and 100.");
@@ -162,39 +208,10 @@ namespace CalculatingAverages
                     numScores++;
                 }
                 Console.Write("Would you like to enter another score? Please enter yes or no: ");
-                switch(Console.ReadLine())
-                {
-                    case "yes":
-                        cont = true;
-                        break;
-                    case "Yes":
-                        cont = true;
-                        break;
-                    case "y":
-                        cont = true;
-                        break;
-                    case "Y":
-                        cont = true;
-                        break;
-                    case "no":
-                        cont = false;
-                        break;
-                    case "No":
-                        cont = false;
-                        break;
-                    case "n":
-                        cont = false;
-                        break;
-                    case "N":
-                        cont = false;
-                        break;
-                    default:
-                        Console.WriteLine("Please enter yes or no.");
-                        break;
-                }
+                cont = contSwitch(Console.ReadLine());
             }
 
-            int avg = sum / numScores; //calculate average from sum
+            double avg = sum / numScores; //calculate average from sum
             char grade;
 
             if (avg <= 100 && avg >= 93)
